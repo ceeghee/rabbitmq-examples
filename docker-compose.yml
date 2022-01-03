@@ -1,0 +1,47 @@
+version: "3.8"
+
+services:
+  node_app_01:
+    image: "node:14-slim"
+    # container_name: rabbitmq_server
+    build:
+      context: .
+      dockerfile: Dockerfile
+    user: "node"
+    working_dir: /usr/src/app
+    tty: true
+    command: "node server.js"
+    restart: on-failure
+    networks:
+      - rabbit_net
+    # depends_on:
+    #   - rabbitmq
+
+  node_app_02:
+    image: "node:14-slim"
+    container_name: rabbitmq_receiver
+    build:
+      context: .
+      dockerfile: Dockerfile
+    user: "node"
+    working_dir: /usr/src/app
+    tty: true
+    command: "node receiver.js"
+    restart: on-failure
+    networks:
+      - rabbit_net
+    # depends_on:
+    #   - rabbitmq
+
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - rabbit_net
+
+networks:
+  rabbit_net:
+    driver: bridge

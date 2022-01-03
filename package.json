@@ -1,0 +1,10 @@
+{
+  "name": "rabbit-mq",
+  "version": "1.0.0",
+  "main": "server.js",
+  "author": "Goodluck Ekene",
+  "license": "MIT",
+  "dependencies": {
+    "amqplib": "^0.8.0"
+  }
+}
